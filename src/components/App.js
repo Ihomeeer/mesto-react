@@ -23,8 +23,8 @@ function App() {
       </template>
 
       <div className="popup"  id="profilePopup">
-        <button type="button" className="popup__close-button popup__close-button_type_form" id="profilePopupCloseBtn"></button>
         <form name="profile-modal" className="popup__main-form" id="profileForm" noValidate>
+        <button type="button" className="popup__close-button" id="profilePopupCloseBtn"></button>
           <h2 className="popup__header">Редактировать профиль</h2>
           <div className="popup__input-container">
             <input type="text" name="name" id="profilePopupName" className="popup__input popup__name" placeholder="Имя" minLength="2" maxLength="40" required />
@@ -39,8 +39,8 @@ function App() {
       </div>
 
       <div className="popup"  id="placePopup">
-        <button type="button" className="popup__close-button popup__close-button_type_form" id="placePopupCloseBtn"></button>
         <form name="place-modal" className="popup__main-form" id="placeForm" noValidate>
+        <button type="button" className="popup__close-button" id="placePopupCloseBtn"></button>
           <h2 className="popup__header">Новое место</h2>
           <div className="popup__input-container">
             <input type="text" name="name" id="placePopupName" className="popup__input popup__name" placeholder="Название" minLength="2" maxLength="40" required />
@@ -65,16 +65,16 @@ function App() {
       </div>
 
       <div className="popup"  id="confirmPopup">
-        <button type="button" className="popup__close-button popup__close-button_type_confirm" id="confirmPopupCloseBtn"></button>
         <form name="confirm-modal" className="popup__main-form" id="confirmForm" noValidate>
+        <button type="button" className="popup__close-button" id="confirmPopupCloseBtn"></button>
           <h2 className="popup__confirm-header popup__header">Вы уверены?</h2>
           <button type="submit" className="popup__save-button" id="confirmPopupSaveBtn">Да</button>
         </form>
       </div>
-      
+
       <div className="popup"  id="avatarPopup">
-        <button type="button" className="popup__close-button popup__close-button_type_avatar" id="avatarPopupCloseBtn"></button>
         <form name="avatar-modal" className="popup__main-form" id="avatarForm" noValidate>
+        <button type="button" className="popup__close-button" id="avatarPopupCloseBtn"></button>
           <h2 className="popup__header">Обновить аватар</h2>
           <div className="popup__input-container">
             <input type="url" name="link" id="avatarPopupLink" className="popup__input popup__avatar-url" placeholder="Ссылка на новый аватар" minLength="2" required />
