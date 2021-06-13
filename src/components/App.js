@@ -6,6 +6,7 @@ import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 
+
 function App() {
 
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -70,19 +71,9 @@ function App() {
 
       <PopupWithForm name="confirm"  title="Вы уверены?" />
 
-      <template className="place-card" id="placeCard">
-      <li className="elements__card">
-        <button type="button" className="elements__delete_invisible elements__delete"></button>
-        <img src="#" alt="#" className="elements__photo" />
-        <div className="elements__info-panel">
-          <h2 className="elements__name" id="cardName">#</h2>
-          <div className="elements__like-container">
-            <button type="button" className="elements__like"></button>
-            <p className="elements__like-counter"></p>
-          </div>
-        </div>
-      </li>
-      </template>
+      {/* <template className="place-card" id="placeCard">
+
+      </template> */}
 
       <Header />
 
