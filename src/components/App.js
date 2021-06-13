@@ -12,23 +12,28 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
 
-  function handleEditProfileClick() {
+  const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
   }
 
-  const handleEditPlaceClick = function() {
+  const handleEditPlaceClick = () => {
     setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
   }
 
-  const handleEditAvatarClick = function() {
+  const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
   }
 
+  const closeAllPopups = () => {
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
+  }
 
 
   return (
     <div className="App">
-      <PopupWithForm name="profile" title="Редактировать профиль" isOpen = {isEditProfilePopupOpen} children = {
+      <PopupWithForm name="profile" title="Редактировать профиль" isOpen = {isEditProfilePopupOpen} onClose = {closeAllPopups} children = {
         <>
           <div className="popup__input-container">
             <input type="text" name="name" id="profilePopupName" className="popup__input popup__name" placeholder="Имя" minLength="2" maxLength="40" required />
@@ -41,7 +46,7 @@ function App() {
         </>
       }/>
 
-      <PopupWithForm name="place" title="Новое место"  isOpen = {isAddPlacePopupOpen} children = {
+      <PopupWithForm name="place" title="Новое место" isOpen = {isAddPlacePopupOpen} onClose = {closeAllPopups} children = {
         <>
           <div className="popup__input-container">
             <input type="text" name="name" id="placePopupName" className="popup__input popup__name" placeholder="Название" minLength="2" maxLength="40" required />
@@ -54,7 +59,7 @@ function App() {
         </>
       }/>
 
-      <PopupWithForm name="avatar"  title="Обновить аватар" isOpen = {isEditAvatarPopupOpen} children = {
+      <PopupWithForm name="avatar"  title="Обновить аватар" isOpen = {isEditAvatarPopupOpen} onClose = {closeAllPopups} children = {
         <>
           <div className="popup__input-container">
             <input type="url" name="link" id="avatarPopupLink" className="popup__input popup__avatar-url" placeholder="Ссылка на новый аватар" minLength="2" required />
