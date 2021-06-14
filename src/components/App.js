@@ -42,8 +42,7 @@ function App() {
     <div className="App">
 
       {/* Модалка с редактированием профиля */}
-      <PopupWithForm name="profile" title="Редактировать профиль" isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} children={
-        <>
+      <PopupWithForm name="profile" title="Редактировать профиль" isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>
           <div className="popup__input-container">
             <input type="text" name="name" id="profilePopupName" className="popup__input popup__name" placeholder="Имя" minLength="2" maxLength="40" required />
             <span className="popup__error-span" id="profilePopupName-error"></span>
@@ -52,32 +51,30 @@ function App() {
             <input type="text" name="about" id="profilePopupJob" className="popup__input popup__function" placeholder="Призвание" minLength="2" maxLength="200" required />
             <span className="popup__error-span" id="profilePopupJob-error"></span>
           </div>
-        </>
-      }/>
+      </PopupWithForm>
 
       {/* Модалка с добавлением новой карточки */}
-      <PopupWithForm name="place" title="Новое место" isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} children={
-        <>
-          <div className="popup__input-container">
+      <PopupWithForm name="place" title="Новое место" isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} >
+        <div className="popup__input-container">
             <input type="text" name="name" id="placePopupName" className="popup__input popup__name" placeholder="Название" minLength="2" maxLength="40" required />
             <span className="popup__error-span" id="placePopupName-error"></span>
           </div>
           <div className="popup__input-container">
             <input type="url" name="link" id="placePopupLink" className="popup__input popup__function" placeholder="Ссылка на картинку" minLength="2" required />
             <span className="popup__error-span" id="placePopupLink-error"></span>
-          </div>
-        </>
-      }/>
+        </div>
+      </PopupWithForm>
+
+
 
       {/* Модалка для смены аватара */}
-      <PopupWithForm name="avatar"  title="Обновить аватар" isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} children={
-        <>
-          <div className="popup__input-container">
+      <PopupWithForm name="avatar"  title="Обновить аватар" isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>
+        <div className="popup__input-container">
             <input type="url" name="link" id="avatarPopupLink" className="popup__input popup__avatar-url" placeholder="Ссылка на новый аватар" minLength="2" required />
             <span className="popup__error-span" id="avatarPopupLink-error"></span>
-          </div>
-        </>
-      }/>
+        </div>
+      </PopupWithForm>
+
 
       {/* Млдалка с подтверждением удаления карточки */}
       <PopupWithForm name="confirm"  title="Вы уверены?" />
