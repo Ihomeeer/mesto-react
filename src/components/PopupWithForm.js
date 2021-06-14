@@ -1,3 +1,5 @@
+// Функциональный компонент, отвечающий за рендер всех модалок с формами
+
 import React from 'react';
 
 function PopupWithForm(props) {

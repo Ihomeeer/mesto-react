@@ -1,3 +1,5 @@
+// Отдельный функциональный компонент, отвечающий за рендер модалки с увеличенным изображением
+
 import React from 'react';
 function ImagePopup(props) {
   return (

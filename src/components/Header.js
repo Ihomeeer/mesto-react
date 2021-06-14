@@ -1,3 +1,5 @@
+// Функциональный компонент, отвечающий за рендер хедера
+
 import headerLogoPath from '../images/header__logo.svg'
 
 function Header() {

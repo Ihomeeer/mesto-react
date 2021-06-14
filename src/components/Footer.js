@@ -1,3 +1,5 @@
+// Функциональный компонент, отвечающий за рендер футера
+
 import React from 'react';
 function Footer() {
   return (

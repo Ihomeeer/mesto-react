@@ -27,7 +27,7 @@ function App() {
   }
 
   const handleCardClick = (card) => {
-    setSelectedCard(card)
+    setSelectedCard(card);
   }
 
   const closeAllPopups = () => {
@@ -40,7 +40,9 @@ function App() {
 
   return (
     <div className="App">
-      <PopupWithForm name="profile" title="Редактировать профиль" isOpen = {isEditProfilePopupOpen} onClose = {closeAllPopups} children = {
+
+      {/* Модалка с редактированием профиля */}
+      <PopupWithForm name="profile" title="Редактировать профиль" isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} children={
         <>
           <div className="popup__input-container">
             <input type="text" name="name" id="profilePopupName" className="popup__input popup__name" placeholder="Имя" minLength="2" maxLength="40" required />
@@ -53,7 +55,8 @@ function App() {
         </>
       }/>
 
-      <PopupWithForm name="place" title="Новое место" isOpen = {isAddPlacePopupOpen} onClose = {closeAllPopups} children = {
+      {/* Модалка с добавлением новой карточки */}
+      <PopupWithForm name="place" title="Новое место" isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} children={
         <>
           <div className="popup__input-container">
             <input type="text" name="name" id="placePopupName" className="popup__input popup__name" placeholder="Название" minLength="2" maxLength="40" required />
@@ -66,7 +69,8 @@ function App() {
         </>
       }/>
 
-      <PopupWithForm name="avatar"  title="Обновить аватар" isOpen = {isEditAvatarPopupOpen} onClose = {closeAllPopups} children = {
+      {/* Модалка для смены аватара */}
+      <PopupWithForm name="avatar"  title="Обновить аватар" isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} children={
         <>
           <div className="popup__input-container">
             <input type="url" name="link" id="avatarPopupLink" className="popup__input popup__avatar-url" placeholder="Ссылка на новый аватар" minLength="2" required />
@@ -75,13 +79,16 @@ function App() {
         </>
       }/>
 
+      {/* Млдалка с подтверждением удаления карточки */}
       <PopupWithForm name="confirm"  title="Вы уверены?" />
 
-      <ImagePopup card = {selectedCard} onClose = {closeAllPopups} />
+      {/* Модалка с увеличенным изображением карточки */}
+      <ImagePopup card={selectedCard} onClose={closeAllPopups} />
 
       <Header />
 
-      <Main onEditProfile = {handleEditProfileClick}  onAddPlace = {handleEditPlaceClick} onEditAvatar = {handleEditAvatarClick} onCardClick = {handleCardClick}/>
+      {/* Блок с профилем и кнопками редактирования профиля/добавления новой карточки */}
+      <Main onEditProfile={handleEditProfileClick}  onAddPlace={handleEditPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick}/>
 
       <Footer />
     </div>
