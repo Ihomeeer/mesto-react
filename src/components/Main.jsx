@@ -13,6 +13,9 @@ function Main(props) {
   // контекст для данных пользователя
   const currentUser = React.useContext(CurrentUserContext);
 
+  // записываем объект, возвращаемый хуком, в переменную, которая будет связана с аватаром
+  const avatarRef = React.useRef();
+
   // отрисовка карточек при старте страницы
   React.useEffect(() => {
     apiHandler.getDefaultCards()
@@ -54,7 +57,7 @@ function Main(props) {
             <div className="profile__avatar-overlay">
               <button className="profile__avatar-edit-button" onClick={props.onEditAvatar}></button>
             </div>
-            <img className="profile__avatar" src={currentUser.avatar} alt="Аватар профиля" />
+            <img className="profile__avatar" src={currentUser.avatar} alt="Аватар профиля" ref={avatarRef}/>
           </div>
           <div className="profile__text-section">
             <div className="profile__name-section">

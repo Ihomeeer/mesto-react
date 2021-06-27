@@ -5,6 +5,7 @@ import Main from './Main';
 import Footer from './Footer';
 import ImagePopup from './ImagePopup';
 import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
 import PopupWithForm from './PopupWithForm';
 import apiHandler from '../utils/Api';
 import CurrentUserContext from '../contexts/CurrentUserContext';
@@ -56,6 +57,11 @@ function App() {
     .catch((err) => console.log(err))
   }
 
+  function handleUpdateAvatar() {
+
+  }
+
+
   React.useEffect(() => {
     apiHandler.getUserInfo()
     .then((res) => {
@@ -81,13 +87,8 @@ function App() {
         </div>
       </PopupWithForm>
 
-      {/* Модалка для смены аватара */}
-      <PopupWithForm name="avatar"  title="Обновить аватар" isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>
-        <div className="popup__input-container">
-            <input type="url" name="link" id="avatarPopupLink" className="popup__input popup__avatar-url" placeholder="Ссылка на новый аватар" minLength="2" required />
-            <span className="popup__error-span" id="avatarPopupLink-error"></span>
-        </div>
-      </PopupWithForm>
+
+
 
       {/* Млдалка с подтверждением удаления карточки */}
       <PopupWithForm name="confirm"  title="Вы уверены?" />
@@ -99,10 +100,15 @@ function App() {
 
       {/* Блок с профилем и кнопками редактирования профиля/добавления новой карточки */}
       <CurrentUserContext.Provider value={currentUser}>
-      {/* Модалка с редактированием профиля */}
-      <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
+
+        {/* Модалка для смены аватара */}
+        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateAvatar}/>
+
+        {/* Модалка с редактированием профиля */}
+        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
 
         <Main onEditProfile={handleEditProfileClick}  onAddPlace={handleEditPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick}/>
+
       </CurrentUserContext.Provider>
 
       <Footer />
