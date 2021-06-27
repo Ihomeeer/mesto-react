@@ -79,9 +79,9 @@ class Api extends React.Component {
   }
 
 //запрос на добавление лайка на сервер или его удаление
-  toggleLike(method, id) {
+  toggleLike(isLiked, id) {
     const toggleLikePromise = fetch(`https://mesto.nomoreparties.co/v1/cohort-24/cards/likes/${id}`, {
-    method: method,
+    method: isLiked ? 'DELETE' : 'PUT',
     headers: this._headers
     })
     .then(res => this._checkStatus(res));
@@ -98,7 +98,8 @@ class Api extends React.Component {
         avatar: userData
       })
     })
-    .then(res => this._checkStatus(res));
+    .then(res => this._checkStatus(res))
+    .catch(err => console.log(err));
 
     return setAvatarPromise;
   }

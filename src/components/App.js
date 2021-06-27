@@ -3,8 +3,11 @@ import './App.css';
 import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
-import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
+import EditProfilePopup from './EditProfilePopup';
+import PopupWithForm from './PopupWithForm';
+import apiHandler from '../utils/Api';
+import CurrentUserContext from '../contexts/CurrentUserContext';
 
 
 function App() {
@@ -13,6 +16,13 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState({});
+  const [currentUser, setCurrentUser] = React.useState({
+    name: "Жак-Ив Кусто",
+    about: "Мореплаватель",
+    avatar: "",
+    cohort: "",
+    _id: ""
+  });
 
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
@@ -37,21 +47,27 @@ function App() {
     setSelectedCard({});
   }
 
+  function handleUpdateUser({name, about}) {
+    apiHandler.sendUserInfo({name, about})
+    .then((res) => {
+      setCurrentUser(res)
+      closeAllPopups()
+    })
+    .catch((err) => console.log(err))
+  }
+
+  React.useEffect(() => {
+    apiHandler.getUserInfo()
+    .then((res) => {
+      setCurrentUser(res)
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }, []);
 
   return (
     <div className="App">
-
-      {/* Модалка с редактированием профиля */}
-      <PopupWithForm name="profile" title="Редактировать профиль" isOpen={isEditProfilePopupOpen} onClose={closeAllPopups}>
-          <div className="popup__input-container">
-            <input type="text" name="name" id="profilePopupName" className="popup__input popup__name" placeholder="Имя" minLength="2" maxLength="40" required />
-            <span className="popup__error-span" id="profilePopupName-error"></span>
-          </div>
-          <div className="popup__input-container">
-            <input type="text" name="about" id="profilePopupJob" className="popup__input popup__function" placeholder="Призвание" minLength="2" maxLength="200" required />
-            <span className="popup__error-span" id="profilePopupJob-error"></span>
-          </div>
-      </PopupWithForm>
 
       {/* Модалка с добавлением новой карточки */}
       <PopupWithForm name="place" title="Новое место" isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} >
@@ -65,8 +81,6 @@ function App() {
         </div>
       </PopupWithForm>
 
-
-
       {/* Модалка для смены аватара */}
       <PopupWithForm name="avatar"  title="Обновить аватар" isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>
         <div className="popup__input-container">
@@ -74,7 +88,6 @@ function App() {
             <span className="popup__error-span" id="avatarPopupLink-error"></span>
         </div>
       </PopupWithForm>
-
 
       {/* Млдалка с подтверждением удаления карточки */}
       <PopupWithForm name="confirm"  title="Вы уверены?" />
@@ -85,7 +98,12 @@ function App() {
       <Header />
 
       {/* Блок с профилем и кнопками редактирования профиля/добавления новой карточки */}
-      <Main onEditProfile={handleEditProfileClick}  onAddPlace={handleEditPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick}/>
+      <CurrentUserContext.Provider value={currentUser}>
+      {/* Модалка с редактированием профиля */}
+      <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
+
+        <Main onEditProfile={handleEditProfileClick}  onAddPlace={handleEditPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick}/>
+      </CurrentUserContext.Provider>
 
       <Footer />
     </div>
