@@ -3,12 +3,14 @@ import PopupWithForm from './PopupWithForm';
 
 function AddPlacePopup(props) {
 
+  //рефы для имени и линка карточки
   const nameRef = React.useRef();
   const linkRef = React.useRef();
 
   function handleSubmit(e) {
     // Запрещаем браузеру переходить по адресу формы
     e.preventDefault();
+    //отправляем данные из инпутов
     props.onSubmit({
       name: nameRef.current.value,
       link: linkRef.current.value

@@ -9,8 +9,6 @@ function Main(props) {
   // контекст для данных пользователя
   const currentUser = React.useContext(CurrentUserContext);
 
-
-
   return (
     <main className="page">
       <section className="profile">

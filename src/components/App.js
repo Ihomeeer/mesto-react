@@ -7,19 +7,27 @@ import ImagePopup from './ImagePopup';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
+import ConfirmDeletePopup from './ConfirmDeletePopup';
 import PopupWithForm from './PopupWithForm';
 import apiHandler from '../utils/Api';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 
 function App() {
 
+  // хук для модалки с изменением профиля
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
+  // хук для открытия модалки с добавлением карточки
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+  // хук для открытия модалки со сменой аватара
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+  // хук для открытия модалки с подтверждением удаления
+  const [isConfirmPopupOpen, setIsConfirmPopupOpen] = React.useState(false);
+  // хук для модалки с зумом
   const [selectedCard, setSelectedCard] = React.useState({});
+  // хук для данных пользователя
   const [currentUser, setCurrentUser] = React.useState({
-    name: "Жак-Ив Кусто",
-    about: "Мореплаватель",
+    name: "",
+    about: "",
     avatar: "",
     cohort: "",
     _id: ""
@@ -27,22 +35,28 @@ function App() {
   // хук для данных для отрисовки карточек
   const [cards, setCards] = React.useState([]);
 
+
+  // открытие модалки профиля
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
   }
-
+  // открытие модалки добавления карточки
   const handleEditPlaceClick = () => {
     setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
   }
-
+// открытие модалки аватара
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
   }
-
+// открытие модалки с зумом
   const handleCardClick = (card) => {
     setSelectedCard(card);
   }
-
+// открытие модалки с подтверждением удаления карточки
+  const handleDeleteClick = () => {
+    setIsConfirmPopupOpen(!isConfirmPopupOpen)
+  }
+// закрытие всех модалок оптом
   const closeAllPopups = () => {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
@@ -50,6 +64,8 @@ function App() {
     setSelectedCard({});
   }
 
+
+  // функция для обновления данных пользователя
   function handleUpdateUser({name, about}) {
     apiHandler.sendUserInfo({name, about})
     .then((res) => {
@@ -60,7 +76,7 @@ function App() {
       console.log(err);
     })
   }
-
+  // функция для обновления аватара пользователя
   function handleUpdateAvatar(avatar) {
     apiHandler.setAvatar(avatar)
     .then(res => {
@@ -71,50 +87,7 @@ function App() {
       console.log(err);
     })
   }
-
-  React.useEffect(() => {
-    apiHandler.getUserInfo()
-    .then((res) => {
-      setCurrentUser(res)
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-  }, []);
-
-  // отрисовка карточек при старте страницы
-  React.useEffect(() => {
-    apiHandler.getDefaultCards()
-    .then((res) => {
-      setCards(res);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-  }, [])
-
-  // установка лайков/дизлайков
-  function handleCardLike(card) {
-    // Снова проверяем, есть ли уже лайк на этой карточке
-    const isLiked = card.likes.some(item => item._id === currentUser._id);
-
-    // Отправляем запрос в API и получаем обновлённые данные карточки
-    apiHandler.toggleLike(isLiked, card._id)
-    .then((newCard) => {
-        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-    })
-    .catch((err) => {console.log(err)
-    })
-  }
-
-  // удаление карточек, по аналогии с лайками
-  function handleCardDelete(id) {
-    return apiHandler.deleteCard(id)
-    .then (() => {
-      setCards(cards => cards.filter(card => card._id !== id))
-    })
-  }
-
+ // функция для добавления карточки и перерисовывания массива с новой карточкой
   function handleAddPlaceSubmit(data) {
     return apiHandler.sendNewCard(data)
     .then ((newCard) => {
@@ -124,6 +97,41 @@ function App() {
     .catch((err) => {console.log(err)
     })
   }
+  // установка лайков/дизлайков для карточек
+  function handleCardLike(card) {
+    // проверяем, есть ли уже лайк на этой карточке
+    const isLiked = card.likes.some(item => item._id === currentUser._id);
+    // Отправляем запрос в API и получаем обновлённые данные карточки
+    apiHandler.toggleLike(isLiked, card._id)
+    .then((newCard) => {
+        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+    })
+    .catch((err) => {console.log(err)
+    })
+  }
+  // удаление карточек, по аналогии с лайками
+  function handleCardDelete(id) {
+    return apiHandler.deleteCard(id)
+    .then (() => {
+      setCards(cards => cards.filter(card => card._id !== id))
+    })
+  }
+  // подтверждение удаления карточки
+  function handleConfirmSubmit(data) {
+
+  }
+
+
+  // получение информации о пользователе и массива карточек при отрисовке страницы
+  React.useEffect(() => {
+  Promise.all([apiHandler.getUserInfo(), apiHandler.getDefaultCards()])
+  .then(([userInfo, defaultCards]) => {
+    setCurrentUser(userInfo);
+    setCards(defaultCards)
+  })
+  .catch(error => console.log(error));
+  }, [])
+
 
   return (
     <div className="App">
@@ -161,6 +169,12 @@ function App() {
           onSubmit={handleAddPlaceSubmit}
         />
 
+        <ConfirmDeletePopup
+          isOpen={isConfirmPopupOpen}
+          onClose={closeAllPopups}
+          onSubmit={handleConfirmSubmit}
+        />
+
         <Main
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleEditPlaceClick}
@@ -169,6 +183,7 @@ function App() {
           onCardLike={handleCardLike}
           onCardDelete={handleCardDelete}
           onCardClick={handleCardClick}
+          onDeleteClick={handleDeleteClick}
         />
       </CurrentUserContext.Provider>
 

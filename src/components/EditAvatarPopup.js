@@ -1,7 +1,6 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm';
 
-
 function EditAvatarPopup(props) {
 
   // записываем объект, возвращаемый хуком, в переменную, которая будет связана с аватаром
