@@ -10,7 +10,6 @@ import PopupWithForm from './PopupWithForm';
 import apiHandler from '../utils/Api';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 
-
 function App() {
 
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
@@ -54,13 +53,21 @@ function App() {
       setCurrentUser(res)
       closeAllPopups()
     })
-    .catch((err) => console.log(err))
+    .catch((err) => {
+      console.log(err);
+    })
   }
 
-  function handleUpdateAvatar() {
-
+  function handleUpdateAvatar(avatar) {
+    apiHandler.setAvatar(avatar)
+    .then(res => {
+      setCurrentUser(res)
+      closeAllPopups()
+    })
+    .catch((err) => {
+      console.log(err);
+    })
   }
-
 
   React.useEffect(() => {
     apiHandler.getUserInfo()
@@ -87,10 +94,7 @@ function App() {
         </div>
       </PopupWithForm>
 
-
-
-
-      {/* Млдалка с подтверждением удаления карточки */}
+      {/* Модалка с подтверждением удаления карточки */}
       <PopupWithForm name="confirm"  title="Вы уверены?" />
 
       {/* Модалка с увеличенным изображением карточки */}
@@ -102,12 +106,12 @@ function App() {
       <CurrentUserContext.Provider value={currentUser}>
 
         {/* Модалка для смены аватара */}
-        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateAvatar}/>
+        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
 
         {/* Модалка с редактированием профиля */}
         <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
 
-        <Main onEditProfile={handleEditProfileClick}  onAddPlace={handleEditPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick}/>
+        <Main onEditProfile={handleEditProfileClick} onAddPlace={handleEditPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick}/>
 
       </CurrentUserContext.Provider>
 

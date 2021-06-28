@@ -37,8 +37,6 @@ function EditProfilePopup(props) {
     });
   }
 
-
-
   return (
     <PopupWithForm name="profile" title="Редактировать профиль" isOpen={props.isOpen} onClose={props.onClose} onSubmit={handleSubmit}>
       <div className="popup__input-container">

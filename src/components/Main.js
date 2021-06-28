@@ -2,7 +2,7 @@
 
 import React from 'react';
 import apiHandler from '../utils/Api';
-import Card from '../components/Card';
+import Card from './Card';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 
 function Main(props) {
@@ -12,9 +12,6 @@ function Main(props) {
 
   // контекст для данных пользователя
   const currentUser = React.useContext(CurrentUserContext);
-
-  // записываем объект, возвращаемый хуком, в переменную, которая будет связана с аватаром
-  const avatarRef = React.useRef();
 
   // отрисовка карточек при старте страницы
   React.useEffect(() => {
@@ -57,7 +54,7 @@ function Main(props) {
             <div className="profile__avatar-overlay">
               <button className="profile__avatar-edit-button" onClick={props.onEditAvatar}></button>
             </div>
-            <img className="profile__avatar" src={currentUser.avatar} alt="Аватар профиля" ref={avatarRef}/>
+            <img className="profile__avatar" src={currentUser.avatar} alt="Аватар профиля"/>
           </div>
           <div className="profile__text-section">
             <div className="profile__name-section">
