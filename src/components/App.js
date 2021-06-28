@@ -6,6 +6,7 @@ import Footer from './Footer';
 import ImagePopup from './ImagePopup';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
+import AddPlacePopup from './AddPlacePopup';
 import PopupWithForm from './PopupWithForm';
 import apiHandler from '../utils/Api';
 import CurrentUserContext from '../contexts/CurrentUserContext';
@@ -23,6 +24,8 @@ function App() {
     cohort: "",
     _id: ""
   });
+  // хук для данных для отрисовки карточек
+  const [cards, setCards] = React.useState([]);
 
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
@@ -79,40 +82,94 @@ function App() {
     })
   }, []);
 
+  // отрисовка карточек при старте страницы
+  React.useEffect(() => {
+    apiHandler.getDefaultCards()
+    .then((res) => {
+      setCards(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    })
+  }, [])
+
+  // установка лайков/дизлайков
+  function handleCardLike(card) {
+    // Снова проверяем, есть ли уже лайк на этой карточке
+    const isLiked = card.likes.some(item => item._id === currentUser._id);
+
+    // Отправляем запрос в API и получаем обновлённые данные карточки
+    apiHandler.toggleLike(isLiked, card._id)
+    .then((newCard) => {
+        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+    })
+    .catch((err) => {console.log(err)
+    })
+  }
+
+  // удаление карточек, по аналогии с лайками
+  function handleCardDelete(id) {
+    return apiHandler.deleteCard(id)
+    .then (() => {
+      setCards(cards => cards.filter(card => card._id !== id))
+    })
+  }
+
+  function handleAddPlaceSubmit(data) {
+    return apiHandler.sendNewCard(data)
+    .then ((newCard) => {
+      setCards([newCard, ...cards]);
+      closeAllPopups();
+    })
+    .catch((err) => {console.log(err)
+    })
+  }
+
   return (
     <div className="App">
 
-      {/* Модалка с добавлением новой карточки */}
-      <PopupWithForm name="place" title="Новое место" isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} >
-        <div className="popup__input-container">
-            <input type="text" name="name" id="placePopupName" className="popup__input popup__name" placeholder="Название" minLength="2" maxLength="40" required />
-            <span className="popup__error-span" id="placePopupName-error"></span>
-          </div>
-          <div className="popup__input-container">
-            <input type="url" name="link" id="placePopupLink" className="popup__input popup__function" placeholder="Ссылка на картинку" minLength="2" required />
-            <span className="popup__error-span" id="placePopupLink-error"></span>
-        </div>
-      </PopupWithForm>
-
-      {/* Модалка с подтверждением удаления карточки */}
-      <PopupWithForm name="confirm"  title="Вы уверены?" />
-
-      {/* Модалка с увеличенным изображением карточки */}
-      <ImagePopup card={selectedCard} onClose={closeAllPopups} />
-
       <Header />
 
-      {/* Блок с профилем и кнопками редактирования профиля/добавления новой карточки */}
       <CurrentUserContext.Provider value={currentUser}>
+        {/* Модалка с подтверждением удаления карточки */}
+        <PopupWithForm name="confirm"  title="Вы уверены?" />
+
+        {/* Модалка с увеличенным изображением карточки */}
+        <ImagePopup
+          card={selectedCard}
+          onClose={closeAllPopups}
+        />
 
         {/* Модалка для смены аватара */}
-        <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
+        <EditAvatarPopup
+          isOpen={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
+        />
 
         {/* Модалка с редактированием профиля */}
-        <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser}/>
+        <EditProfilePopup
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
+        />
 
-        <Main onEditProfile={handleEditProfileClick} onAddPlace={handleEditPlaceClick} onEditAvatar={handleEditAvatarClick} onCardClick={handleCardClick}/>
+        {/* Модалка с добавлением новой карточки */}
+        <AddPlacePopup
+          isOpen={isAddPlacePopupOpen}
+          onClose={closeAllPopups}
+          onSubmit={handleAddPlaceSubmit}
+        />
 
+        <Main
+          onEditProfile={handleEditProfileClick}
+          onAddPlace={handleEditPlaceClick}
+          onEditAvatar={handleEditAvatarClick}
+          initialCards={cards}
+          onCardLike={handleCardLike}
+          onCardDelete={handleCardDelete}
+          onCardClick={handleCardClick}
+        />
       </CurrentUserContext.Provider>
 
       <Footer />

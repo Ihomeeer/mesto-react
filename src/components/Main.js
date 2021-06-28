@@ -1,50 +1,15 @@
 // Функциональный компонент, отвечающий за рендер блока с профилем
 
 import React from 'react';
-import apiHandler from '../utils/Api';
 import Card from './Card';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 
 function Main(props) {
 
-  // хук для данных для отрисовки карточек
-  const [cards, setCards] = React.useState([]);
-
   // контекст для данных пользователя
   const currentUser = React.useContext(CurrentUserContext);
 
-  // отрисовка карточек при старте страницы
-  React.useEffect(() => {
-    apiHandler.getDefaultCards()
-    .then((res) => {
-      setCards(res);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-  }, [])
 
-  // установка лайков/дизлайков
-  function handleCardLike(card) {
-    // Снова проверяем, есть ли уже лайк на этой карточке
-    const isLiked = card.likes.some(item => item._id === currentUser._id);
-
-    // Отправляем запрос в API и получаем обновлённые данные карточки
-    apiHandler.toggleLike(isLiked, card._id)
-    .then((newCard) => {
-        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-    })
-    .catch((err) => {console.log(err)
-    })
-  }
-
-  // удаление карточек, по аналогии с лайками
-  function handleCardDelete(id) {
-   return apiHandler.deleteCard(id)
-   .then (() => {
-     setCards(cards => cards.filter(card => card._id !== id))
-   })
-  }
 
   return (
     <main className="page">
@@ -68,9 +33,9 @@ function Main(props) {
       </section>
       <section className="elements">
         <ul className="elements__grid">
-          {cards.map(card => {
+          {props.initialCards.map(card => {
             return (
-              <Card key={card._id} card={card} onCardClick={props.onCardClick} onCardLike={handleCardLike} onCardDelete={handleCardDelete}/>
+              <Card key={card._id} card={card} onCardClick={props.onCardClick} onCardLike={props.onCardLike} onCardDelete={props.onCardDelete}/>
             )
           })}
         </ul>

@@ -1,0 +1,32 @@
+import React from 'react';
+import PopupWithForm from './PopupWithForm';
+
+function AddPlacePopup(props) {
+
+  const nameRef = React.useRef();
+  const linkRef = React.useRef();
+
+  function handleSubmit(e) {
+    // Запрещаем браузеру переходить по адресу формы
+    e.preventDefault();
+    props.onSubmit({
+      name: nameRef.current.value,
+      link: linkRef.current.value
+    })
+  }
+
+  return (
+    <PopupWithForm name="place" title="Новое место" isOpen={props.isOpen} onClose={props.onClose} onSubmit={handleSubmit}>
+      <div className="popup__input-container">
+          <input type="text" name="name" id="placePopupName" className="popup__input popup__name" ref={nameRef} placeholder="Название" minLength="2" maxLength="40" required />
+          <span className="popup__error-span" id="placePopupName-error"></span>
+        </div>
+        <div className="popup__input-container">
+          <input type="url" name="link" id="placePopupLink" className="popup__input popup__function" ref={linkRef} placeholder="Ссылка на картинку" minLength="2" required />
+          <span className="popup__error-span" id="placePopupLink-error"></span>
+      </div>
+    </PopupWithForm>
+  )
+}
+
+export default AddPlacePopup;
