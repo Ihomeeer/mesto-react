@@ -9,7 +9,7 @@ import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import ConfirmDeletePopup from './ConfirmDeletePopup';
 import PopupWithForm from './PopupWithForm';
-import apiHandler from '../utils/Api';
+import apiHandler from '../utils/api';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 
 function App() {

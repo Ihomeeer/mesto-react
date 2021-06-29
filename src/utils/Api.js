@@ -1,5 +1,5 @@
 import React from 'react';
-import './Api.css';
+import './api.css';
 
 //Класс содержит всю логику для работы с API
 class Api extends React.Component {
