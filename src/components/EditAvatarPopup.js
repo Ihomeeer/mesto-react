@@ -1,3 +1,5 @@
+//  модалка с редактированием аватара
+
 import React from 'react';
 import PopupWithForm from './PopupWithForm';
 
@@ -15,7 +17,7 @@ function EditAvatarPopup(props) {
   }
 
   return (
-    <PopupWithForm name="avatar"  title="Обновить аватар" isOpen={props.isOpen} onClose={props.onClose} onSubmit={handleSubmit}>
+    <PopupWithForm name="avatar"  title="Обновить аватар" isOpen={props.isOpen} onClose={props.onClose} onSubmit={handleSubmit} buttonName="Сохранить">
       <div className="popup__input-container">
           <input type="url" name="link" id="avatarPopupLink" className="popup__input popup__avatar-url" ref={avatarRef} placeholder="Ссылка на новый аватар" minLength="2" required />
           <span className="popup__error-span" id="avatarPopupLink-error"></span>

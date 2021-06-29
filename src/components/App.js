@@ -24,6 +24,8 @@ function App() {
   const [isConfirmPopupOpen, setIsConfirmPopupOpen] = React.useState(false);
   // хук для модалки с зумом
   const [selectedCard, setSelectedCard] = React.useState({});
+  // хук для модалки с подтверждением удаления карточки
+  const[selectedCardDelete, setSelectedCardDelete] = React.useState({});
   // хук для данных пользователя
   const [currentUser, setCurrentUser] = React.useState({
     name: "",
@@ -44,27 +46,28 @@ function App() {
   const handleEditPlaceClick = () => {
     setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
   }
-// открытие модалки аватара
+  // открытие модалки аватара
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
   }
-// открытие модалки с зумом
+  // открытие модалки с зумом
   const handleCardClick = (card) => {
     setSelectedCard(card);
   }
-// открытие модалки с подтверждением удаления карточки
-  const handleDeleteConfirmClick = () => {
+  // открытие модалки с подтверждением удаления карточки
+  const handleDeleteConfirmClick = (card) => {
+    setSelectedCardDelete(card)
     setIsConfirmPopupOpen(!isConfirmPopupOpen)
   }
-// закрытие всех модалок оптом
+  // закрытие всех модалок оптом
   const closeAllPopups = () => {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsConfirmPopupOpen(false);
     setSelectedCard({});
+    setSelectedCardDelete({});
   }
-
 
   // функция для обновления данных пользователя
   function handleUpdateUser({name, about}) {
@@ -88,7 +91,8 @@ function App() {
       console.log(err);
     })
   }
- // функция для добавления карточки и перерисовывания массива с новой карточкой
+
+  // функция для добавления карточки и перерисовывания массива с новой карточкой
   function handleAddPlaceSubmit(data) {
     return apiHandler.sendNewCard(data)
     .then ((newCard) => {
@@ -110,18 +114,12 @@ function App() {
     .catch((err) => {console.log(err)
     })
   }
-  // удаление карточек, по аналогии с лайками
-  // function handleCardDelete(id) {
-  //   return apiHandler.deleteCard(id)
-  //   .then (() => {
-  //     setCards(cards => cards.filter(card => card._id !== id))
-  //   })
-  // }
   // подтверждение удаления карточки
-  function handleConfirmSubmit(id) {
-    return apiHandler.deleteCard(id)
+  function handleConfirmSubmit() {
+    return apiHandler.deleteCard(selectedCardDelete)
     .then (() => {
-      setCards(cards => cards.filter(card => card._id !== id))
+      setCards(cards => cards.filter(card => card._id !== selectedCardDelete));
+      closeAllPopups();
     })
   }
 
@@ -187,7 +185,6 @@ function App() {
           onCardLike={handleCardLike}
           onCardDelete={handleDeleteConfirmClick}
           onCardClick={handleCardClick}
-          // onDeleteClick={handleDeleteClick}
         />
       </CurrentUserContext.Provider>
 

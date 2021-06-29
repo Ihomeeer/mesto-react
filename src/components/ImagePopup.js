@@ -1,7 +1,9 @@
 // Отдельный функциональный компонент, отвечающий за рендер модалки с увеличенным изображением
 
 import React from 'react';
+
 function ImagePopup(props) {
+
   return (
     <div className={`popup ${props.card.name ? 'popup_opened' : "" }`} name="popup_type_photo" id="photoPopup">
       <div className="popup__form-container">
