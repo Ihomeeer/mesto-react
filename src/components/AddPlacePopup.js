@@ -18,7 +18,7 @@ function AddPlacePopup(props) {
   }
 
   return (
-    <PopupWithForm name="place" title="Новое место" isOpen={props.isOpen} onClose={props.onClose} onSubmit={handleSubmit}>
+    <PopupWithForm name="place" title="Новое место" isOpen={props.isOpen} onClose={props.onClose} onSubmit={handleSubmit} buttonName="Сохранить">
       <div className="popup__input-container">
           <input type="text" name="name" id="placePopupName" className="popup__input popup__name" ref={nameRef} placeholder="Название" minLength="2" maxLength="40" required />
           <span className="popup__error-span" id="placePopupName-error"></span>

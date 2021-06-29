@@ -9,7 +9,7 @@ import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import ConfirmDeletePopup from './ConfirmDeletePopup';
 import PopupWithForm from './PopupWithForm';
-import apiHandler from '../utils/api';
+import api from '../utils/api';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 
 function App() {
@@ -71,7 +71,7 @@ function App() {
 
   // функция для обновления данных пользователя
   function handleUpdateUser({name, about}) {
-    apiHandler.sendUserInfo({name, about})
+    api.sendUserInfo({name, about})
     .then((res) => {
       setCurrentUser(res)
       closeAllPopups()
@@ -82,7 +82,7 @@ function App() {
   }
   // функция для обновления аватара пользователя
   function handleUpdateAvatar(avatar) {
-    apiHandler.setAvatar(avatar)
+    api.setAvatar(avatar)
     .then(res => {
       setCurrentUser(res)
       closeAllPopups()
@@ -94,7 +94,7 @@ function App() {
 
   // функция для добавления карточки и перерисовывания массива с новой карточкой
   function handleAddPlaceSubmit(data) {
-    return apiHandler.sendNewCard(data)
+    return api.sendNewCard(data)
     .then ((newCard) => {
       setCards([newCard, ...cards]);
       closeAllPopups();
@@ -107,7 +107,7 @@ function App() {
     // проверяем, есть ли уже лайк на этой карточке
     const isLiked = card.likes.some(item => item._id === currentUser._id);
     // Отправляем запрос в API и получаем обновлённые данные карточки
-    apiHandler.toggleLike(isLiked, card._id)
+    api.toggleLike(isLiked, card._id)
     .then((newCard) => {
         setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
     })
@@ -116,7 +116,7 @@ function App() {
   }
   // подтверждение удаления карточки
   function handleConfirmSubmit() {
-    return apiHandler.deleteCard(selectedCardDelete)
+    return api.deleteCard(selectedCardDelete)
     .then (() => {
       setCards(cards => cards.filter(card => card._id !== selectedCardDelete));
       closeAllPopups();
@@ -126,7 +126,7 @@ function App() {
 
   // получение информации о пользователе и массива карточек при отрисовке страницы
   React.useEffect(() => {
-  Promise.all([apiHandler.getUserInfo(), apiHandler.getDefaultCards()])
+  Promise.all([api.getUserInfo(), api.getDefaultCards()])
   .then(([userInfo, defaultCards]) => {
     setCurrentUser(userInfo);
     setCards(defaultCards)
