@@ -105,7 +105,7 @@ class Api extends React.Component {
   }
 }
 
-const apiHandler = new Api({
+const apiHandler = new api({
   baseUrl: 'https://mesto.nomoreparties.co',
   headers: {
     authorization: '5183e2a2-8586-4c29-b979-09c0ece03d78',
