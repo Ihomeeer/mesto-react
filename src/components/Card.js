@@ -2,6 +2,7 @@
 import CurrentUserContext from '../contexts/CurrentUserContext';
 
 import React from 'react';
+import ConfirmDeletePopup from './ConfirmDeletePopup';
 function Card(props) {
 
   const currentUser = React.useContext(CurrentUserContext);

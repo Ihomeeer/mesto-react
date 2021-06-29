@@ -53,7 +53,7 @@ function App() {
     setSelectedCard(card);
   }
 // открытие модалки с подтверждением удаления карточки
-  const handleDeleteClick = () => {
+  const handleDeleteConfirmClick = () => {
     setIsConfirmPopupOpen(!isConfirmPopupOpen)
   }
 // закрытие всех модалок оптом
@@ -61,6 +61,7 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
+    setIsConfirmPopupOpen(false);
     setSelectedCard({});
   }
 
@@ -110,15 +111,18 @@ function App() {
     })
   }
   // удаление карточек, по аналогии с лайками
-  function handleCardDelete(id) {
+  // function handleCardDelete(id) {
+  //   return apiHandler.deleteCard(id)
+  //   .then (() => {
+  //     setCards(cards => cards.filter(card => card._id !== id))
+  //   })
+  // }
+  // подтверждение удаления карточки
+  function handleConfirmSubmit(id) {
     return apiHandler.deleteCard(id)
     .then (() => {
       setCards(cards => cards.filter(card => card._id !== id))
     })
-  }
-  // подтверждение удаления карточки
-  function handleConfirmSubmit(data) {
-
   }
 
 
@@ -172,7 +176,7 @@ function App() {
         <ConfirmDeletePopup
           isOpen={isConfirmPopupOpen}
           onClose={closeAllPopups}
-          onSubmit={handleConfirmSubmit}
+          onDelete={handleConfirmSubmit}
         />
 
         <Main
@@ -181,9 +185,9 @@ function App() {
           onEditAvatar={handleEditAvatarClick}
           initialCards={cards}
           onCardLike={handleCardLike}
-          onCardDelete={handleCardDelete}
+          onCardDelete={handleDeleteConfirmClick}
           onCardClick={handleCardClick}
-          onDeleteClick={handleDeleteClick}
+          // onDeleteClick={handleDeleteClick}
         />
       </CurrentUserContext.Provider>
 
