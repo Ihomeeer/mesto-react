@@ -7,6 +7,7 @@ function AddPlacePopup(props) {
   const nameRef = React.useRef();
   const linkRef = React.useRef();
 
+
   function handleSubmit(e) {
     // Запрещаем браузеру переходить по адресу формы
     e.preventDefault();
@@ -22,7 +23,7 @@ function AddPlacePopup(props) {
   React.useEffect(() => {
     nameRef.current.value =""
     linkRef.current.value =""
-  }, [props.onSubmit])
+  }, [props, props.onSubmit])
 
   return (
     <PopupWithForm name="place" title="Новое место" isOpen={props.isOpen} onClose={props.onClose} onSubmit={handleSubmit} buttonName="Сохранить">

@@ -24,7 +24,7 @@ function App() {
   // хук для модалки с зумом
   const [selectedCard, setSelectedCard] = React.useState({});
   // хук для модалки с подтверждением удаления карточки
-  const[selectedCardDelete, setSelectedCardDelete] = React.useState({});
+  const [selectedCardDelete, setSelectedCardDelete] = React.useState({});
   // хук для данных пользователя
   const [currentUser, setCurrentUser] = React.useState({
     name: "",
@@ -134,6 +134,7 @@ function App() {
   })
   .catch(error => console.log(error));
   }, [])
+
 
 
   return (
