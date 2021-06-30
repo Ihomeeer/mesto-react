@@ -19,17 +19,15 @@ class Api extends React.Component {
 
   //получение информации о пользователе с сервера
   getUserInfo() {
-    const getUserInfoPromise = fetch(`${this._baseUrl}/v1/cohort-24/users/me`, {
+    return fetch(`${this._baseUrl}/v1/cohort-24/users/me`, {
       headers: this._headers
     })
     .then(res => this._checkStatus(res));
-
-    return getUserInfoPromise;
   }
 
   //обновление информации о пользователе с сервера
   sendUserInfo(userData) {
-    const sendUserInfoPromise = fetch(`${this._baseUrl}/v1/cohort-24/users/me`, {
+    return fetch(`${this._baseUrl}/v1/cohort-24/users/me`, {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify ({
@@ -38,23 +36,19 @@ class Api extends React.Component {
       })
     })
     .then(res => this._checkStatus(res));
-
-    return sendUserInfoPromise;
   }
 
   //получение списка карточек с сервера при старте страницы
   getDefaultCards = () => {
-    const getDefaultCardsPromise = fetch(`${this._baseUrl}/v1/cohort-24/cards`, {
+    return fetch(`${this._baseUrl}/v1/cohort-24/cards`, {
       headers: this._headers
     })
     .then(res => this._checkStatus(res));
-
-    return getDefaultCardsPromise;
   }
 
   //отправка новой карточки на сервер
   sendNewCard(cardData) {
-    const sendNewCardPromise = fetch(`${this._baseUrl}/v1/cohort-24/cards`, {
+    return fetch(`${this._baseUrl}/v1/cohort-24/cards`, {
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify ({
@@ -63,35 +57,29 @@ class Api extends React.Component {
       })
     })
     .then(res => this._checkStatus(res));
-
-    return sendNewCardPromise;
   }
 
   //удаление карточки с сервера
   deleteCard(id) {
-    const deleteCardPromise = fetch(`${this._baseUrl}/v1/cohort-24/cards/${id}`, {
+    return fetch(`${this._baseUrl}/v1/cohort-24/cards/${id}`, {
       method: 'DELETE',
       headers: this._headers
       })
       .then(res => this._checkStatus(res));
-
-      return deleteCardPromise;
   }
 
   //запрос на добавление лайка на сервер или его удаление
   toggleLike(isLiked, id) {
-    const toggleLikePromise = fetch(`https://mesto.nomoreparties.co/v1/cohort-24/cards/likes/${id}`, {
+    return fetch(`https://mesto.nomoreparties.co/v1/cohort-24/cards/likes/${id}`, {
     method: isLiked ? 'DELETE' : 'PUT',
     headers: this._headers
     })
     .then(res => this._checkStatus(res));
-
-    return toggleLikePromise;
   }
 
   //запрос на обновление аватара
   setAvatar(userData) {
-    const setAvatarPromise = fetch('https://mesto.nomoreparties.co/v1/cohort-24/users/me/avatar', {
+    return fetch('https://mesto.nomoreparties.co/v1/cohort-24/users/me/avatar', {
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify ({
@@ -99,9 +87,6 @@ class Api extends React.Component {
       })
     })
     .then(res => this._checkStatus(res))
-    .catch(err => console.log(err));
-
-    return setAvatarPromise;
   }
 }
 

@@ -8,7 +8,6 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import ConfirmDeletePopup from './ConfirmDeletePopup';
-import PopupWithForm from './PopupWithForm';
 import api from '../utils/api';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 
@@ -40,15 +39,15 @@ function App() {
 
   // открытие модалки профиля
   const handleEditProfileClick = () => {
-    setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
+    setIsEditProfilePopupOpen(true);
   }
   // открытие модалки добавления карточки
   const handleEditPlaceClick = () => {
-    setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
+    setIsAddPlacePopupOpen(true);
   }
   // открытие модалки аватара
   const handleEditAvatarClick = () => {
-    setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
+    setIsEditAvatarPopupOpen(true);
   }
   // открытие модалки с зумом
   const handleCardClick = (card) => {
@@ -57,7 +56,7 @@ function App() {
   // открытие модалки с подтверждением удаления карточки
   const handleDeleteConfirmClick = (card) => {
     setSelectedCardDelete(card)
-    setIsConfirmPopupOpen(!isConfirmPopupOpen)
+    setIsConfirmPopupOpen(true)
   }
   // закрытие всех модалок оптом
   const closeAllPopups = () => {
@@ -121,6 +120,8 @@ function App() {
       setCards(cards => cards.filter(card => card._id !== selectedCardDelete));
       closeAllPopups();
     })
+    .catch((err) => {console.log(err)
+    })
   }
 
 
@@ -141,9 +142,6 @@ function App() {
       <Header />
 
       <CurrentUserContext.Provider value={currentUser}>
-        {/* Модалка с подтверждением удаления карточки */}
-        <PopupWithForm name="confirm"  title="Вы уверены?" />
-
         {/* Модалка с увеличенным изображением карточки */}
         <ImagePopup
           card={selectedCard}
@@ -170,7 +168,7 @@ function App() {
           onClose={closeAllPopups}
           onSubmit={handleAddPlaceSubmit}
         />
-
+        {/* Модалка с подтверждением удаления карточки */}
         <ConfirmDeletePopup
           isOpen={isConfirmPopupOpen}
           onClose={closeAllPopups}
@@ -181,7 +179,7 @@ function App() {
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleEditPlaceClick}
           onEditAvatar={handleEditAvatarClick}
-          initialCards={cards}
+          cards={cards}
           onCardLike={handleCardLike}
           onCardDelete={handleDeleteConfirmClick}
           onCardClick={handleCardClick}

@@ -15,7 +15,14 @@ function AddPlacePopup(props) {
       name: nameRef.current.value,
       link: linkRef.current.value
     })
+
   }
+
+  //очистка инпутов модалки после отправления данных на сервер
+  React.useEffect(() => {
+    nameRef.current.value =""
+    linkRef.current.value =""
+  }, [props.onSubmit])
 
   return (
     <PopupWithForm name="place" title="Новое место" isOpen={props.isOpen} onClose={props.onClose} onSubmit={handleSubmit} buttonName="Сохранить">

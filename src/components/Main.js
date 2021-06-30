@@ -31,7 +31,7 @@ function Main(props) {
       </section>
       <section className="elements">
         <ul className="elements__grid">
-          {props.initialCards.map(card => {
+          {props.cards.map(card => {
             return (
               <Card key={card._id} card={card} onCardClick={props.onCardClick} onCardLike={props.onCardLike} onCardDelete={props.onCardDelete}/>
             )
