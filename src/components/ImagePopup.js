@@ -3,6 +3,18 @@
 import React from 'react';
 
 function ImagePopup(props) {
+  React.useEffect(() => {
+    const handleEscClosePopup = (e) => {
+      if (e.code === "Escape") props.onClose();
+    }
+    if (props.card) {
+        document.addEventListener('keyup', handleEscClosePopup);
+    }
+
+    return () => {
+        document.removeEventListener('keyup', handleEscClosePopup);
+    }
+  });
 
   return (
     <div className={`popup ${props.card.name ? 'popup_opened' : "" }`} name="popup_type_photo" id="photoPopup">

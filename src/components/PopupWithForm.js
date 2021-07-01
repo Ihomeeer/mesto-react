@@ -11,10 +11,11 @@ function PopupWithForm(props) {
     if (props.isOpen) {
         document.addEventListener('keyup', handleEscClosePopup);
     }
+    
     return () => {
         document.removeEventListener('keyup', handleEscClosePopup);
     }
-  }, [props, props.isOpen]);
+  }, [props.isOpen]);
 
   return (
     <div className={`popup popup_type_${props.name} ${props.isOpen ? 'popup_opened' : "" }`}>

@@ -16,6 +16,11 @@ function EditAvatarPopup(props) {
     );
   }
 
+  //очистка инпута модалки после отправления данных на сервер
+  React.useEffect(() => {
+    avatarRef.current.value = ""
+  }, [props, props.isOpen])
+
   return (
     <PopupWithForm name="avatar"  title="Обновить аватар" isOpen={props.isOpen} onClose={props.onClose} onSubmit={handleSubmit} buttonName="Сохранить">
       <div className="popup__input-container">

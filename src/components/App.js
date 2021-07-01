@@ -127,12 +127,12 @@ function App() {
 
   // получение информации о пользователе и массива карточек при отрисовке страницы
   React.useEffect(() => {
-  Promise.all([api.getUserInfo(), api.getDefaultCards()])
-  .then(([userInfo, defaultCards]) => {
-    setCurrentUser(userInfo);
-    setCards(defaultCards)
-  })
-  .catch(error => console.log(error));
+    Promise.all([api.getUserInfo(), api.getDefaultCards()])
+    .then(([userInfo, defaultCards]) => {
+      setCurrentUser(userInfo);
+      setCards(defaultCards);
+    })
+    .catch(error => console.log(error));
   }, [])
 
 
